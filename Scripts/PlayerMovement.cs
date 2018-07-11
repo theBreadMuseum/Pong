@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour {
 
     public float speed = 10;
 	
-	// Update is called once per frame
 	void Update () {
 		
         if(Input.GetKey(moveUp)) {

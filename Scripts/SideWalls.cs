@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class SideWalls : MonoBehaviour {
 
-	void OnTriggerEnter2D (Collider2D hitInfo) {
+    private AudioSource audioSource;
+    public AudioClip scoreSound;
+
+    void OnTriggerEnter2D (Collider2D hitInfo) {
 		if(hitInfo.name == "Ball") {
             var wallName = transform.name;
             GameMngr.Score(wallName);
             hitInfo.gameObject.SendMessage("ResetBallTimer");
+
+            audioSource = GetComponent<AudioSource>();
+            audioSource.clip = scoreSound;
+            audioSource.Play();
         }
 	}
 

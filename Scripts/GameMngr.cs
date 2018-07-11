@@ -9,6 +9,12 @@ public class GameMngr : MonoBehaviour {
 
     public GUISkin scoreSkin;
 
+    public Transform theBall;
+
+    void Start() {
+        theBall = GameObject.FindGameObjectWithTag("Ball").transform;
+    }
+
     public static void Score(string wallName) {
         if (wallName == "rightWall") {
             player1Score += 1;
@@ -21,6 +27,13 @@ public class GameMngr : MonoBehaviour {
         GUI.skin = scoreSkin;
         GUI.Label(new Rect(Screen.width / 2 - 150, 20, 100, 100), "" + player1Score);
         GUI.Label(new Rect(Screen.width / 2 + 150, 20, 100, 100), "" + player2Score);
+
+        if(GUI.Button(new Rect(Screen.width / 2 - 121 / 2, 35, 121, 53), "RESET")) {
+            player1Score = 0;
+            player2Score = 0;
+
+            theBall.gameObject.SendMessage("ResetBallTimer");
+        }
     }
 
 }

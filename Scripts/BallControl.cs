@@ -10,6 +10,18 @@ public class BallControl : MonoBehaviour {
         StartCoroutine(BallStartTimer());
     }
 
+    void Update() {
+        float xVel = GetComponent<Rigidbody2D>().velocity.x;
+        if((xVel < 16 || xVel > 16) && xVel !=0) {
+            if(xVel > 0) {
+                GetComponent<Rigidbody2D>().velocity = new Vector2(18f, GetComponent<Rigidbody2D>().velocity.y);
+            }
+            else {
+                GetComponent<Rigidbody2D>().velocity = new Vector2(-18f, GetComponent<Rigidbody2D>().velocity.y);
+            }
+        }
+    }
+
     IEnumerator ResetBallTimer() {
         GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
 
@@ -33,9 +45,16 @@ public class BallControl : MonoBehaviour {
         }
     }
 
+    private AudioSource audioSource;
+    public AudioClip clickSound;
+
     void OnCollisionEnter2D(Collision2D colInfo) {
         if(colInfo.gameObject.tag == "Player") {
-            Debug.Log("AAAAAAAAAAA");
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, GetComponent<Rigidbody2D>().velocity.y / 2 + colInfo.collider.GetComponent<Rigidbody2D>().velocity.y / 3);
+            audioSource = GetComponent<AudioSource>();
+            audioSource.clip = clickSound;
+            audioSource.pitch = Random.Range(0.8f, 1.2f);
+            audioSource.Play();
         }
     }
 
